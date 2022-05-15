@@ -1,0 +1,47 @@
+root@LAPTOP-G691VBJA:/mnt/c/Users/97254/orgchart-a# bash grade
+--- 0 seconds
+
+
+### Cleaning old files ###
+rm -f objects/Node.o objects/OrgChart.o *.o test* demo*
+rm -f StudentTest*.cpp
+
+
+### Check 1: our demo program should compile with your class
+! timeout 20 make -j8 -f Makefile demo
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile Demo.cpp -o Demo.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/Node.cpp -o objects/Node.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/OrgChart.cpp -o objects/OrgChart.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources Demo.o objects/Node.o objects/OrgChart.o -o demo
+--- 1 seconds
+### Score 1: 100
+
+
+### Check 2: our demo program should run without errors
+! timeout 20 ./demo
+CEO CTO VP_SW CFO COO VP_BI 
+CEO CTO CFO COO VP_SW VP_BI
+VP_SW VP_BI CTO CFO COO CEO
+CEO CTO VP_SW CFO COO VP_BI
+CEO CTO CFO COO VP_SW VP_BI --- 2 seconds
+### Score 2: 100
+
+
+### Check 3: your test should compile
+! timeout 20 make -j8 -f Makefile test
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile TestCounter.cpp -o TestCounter.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile Test.cpp -o Test.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources TestCounter.o Test.o objects/Node.o objects/OrgChart.o -o test
+--- 4 seconds
+### Score 3: 100
+
+
+### Check 4: you should write some new tests
+! timeout 20 ./test
+[doctest] doctest version is "2.3.7"
+[doctest] run with "--help" for options
+--- 4 seconds
+### Score 4: 100
+
+
+Grade: 100
